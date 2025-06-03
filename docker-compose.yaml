@@ -1,0 +1,38 @@
+services:
+  registry:
+    restart: always
+    image: registry:2
+    container_name: registry
+    ports:
+      - "5000:5000"
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: ${REGISTRY_HTTP_TLS_CERTIFICATE}
+      REGISTRY_HTTP_TLS_KEY: ${REGISTRY_HTTP_TLS_KEY}
+      REGISTRY_AUTH: ${REGISTRY_AUTH}
+      REGISTRY_AUTH_HTPASSWD_PATH: /run/secrets/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: ${REGISTRY_AUTH_HTPASSWD_REALM}
+    volumes:
+      - ./data:/var/lib/registry
+    secrets:
+      - registry_crt
+      - registry_key
+      - htpasswd
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - registry
+
+secrets:
+  registry_crt:
+    file: ./secrets/registryfgrdn.cert
+  registry_key:
+    file: ./secrets/registryfgrdn.key
+  htpasswd:
+    file: ./secrets/htpasswd
+
+networks:
+  registry:
+    driver: bridge
