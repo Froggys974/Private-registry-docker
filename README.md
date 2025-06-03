@@ -37,14 +37,14 @@ project-root/
 
 ## 🔐 1. Générer les certificats TLS (auto-signés)
 
-Le registre s'exécutera sous le nom `registry.vlne.fr`. Tu dois générer un certificat avec ce nom dans le **Common Name (CN)** :
+Le registre s'exécutera sous le nom `registry.fgrdn.fr`. Tu dois générer un certificat avec ce nom dans le **Common Name (CN)** :
 
 ```bash
 mkdir -p secrets
 
 openssl req -newkey rsa:4096 -nodes -sha256 -keyout secrets/registryfgrdn.key \
   -x509 -days 365 -out secrets/registryfgrdn.cert \
-  -subj "/C=FR/ST=France/L=Paris/O=Registry/CN=registry.vlne.fr"
+  -subj "/C=FR/ST=France/L=Paris/O=Registry/CN=registry.fgrdn.fr"
 ````
 
 ---
@@ -54,9 +54,9 @@ openssl req -newkey rsa:4096 -nodes -sha256 -keyout secrets/registryfgrdn.key \
 Sur **chaque machine cliente** (y compris celle qui exécute Docker), installe le certificat pour que Docker puisse se connecter au registre sécurisé :
 
 ```bash
-sudo mkdir -p /etc/docker/certs.d/registry.vlne.fr:5000
+sudo mkdir -p /etc/docker/certs.d/registry.fgrdn.fr:5000
 
-sudo cp secrets/registryfgrdn.cert /etc/docker/certs.d/registry.vlne.fr:5000/ca.crt
+sudo cp secrets/registryfgrdn.cert /etc/docker/certs.d/registry.fgrdn.fr:5000/ca.crt
 ```
 
 > ⚠️ Le fichier doit s’appeler **`ca.crt`** exactement.
@@ -69,13 +69,13 @@ Ajoute dans ton `/etc/hosts` la ligne suivante **en remplaçant `192.168.1.107` 
 
 ```text
 # IP locale du serveur (trouvée avec `ip a`)
-192.168.1.xxx registry.vlne.fr
+192.168.1.xxx registry.fgrdn.fr
 ```
 
 Ou si tu testes localement sur la même machine :
 
 ```text
-127.0.0.1 registry.vlne.fr
+127.0.0.1 registry.fgrdn.fr
 ```
 
 Pour connaître ton IP :
@@ -118,7 +118,7 @@ docker compose up -d
 ### 🔐 Connexion
 
 ```bash
-docker login https://registry.vlne.fr:5000
+docker login https://registry.fgrdn.fr:5000
 username: admin
 password: MonSuperMotDePasse
 ```
@@ -126,20 +126,20 @@ password: MonSuperMotDePasse
 ### 📤 Pusher une image
 
 ```bash
-docker tag nginx:latest registry.vlne.fr:5000/nginx
-docker push registry.vlne.fr:5000/nginx
+docker tag nginx:latest registry.fgrdn.fr:5000/nginx
+docker push registry.fgrdn.fr:5000/nginx
 ```
 
 ### 📥 Télécharger une image
 
 ```bash
-docker pull registry.vlne.fr:5000/nginx
+docker pull registry.fgrdn.fr:5000/nginx
 ```
 
 ### 🚪 Déconnexion
 
 ```bash
-docker logout https://registry.vlne.fr:5000
+docker logout https://registry.fgrdn.fr:5000
 ```
 
 ---
@@ -149,13 +149,13 @@ docker logout https://registry.vlne.fr:5000
 ### 📚 Lister les images disponibles
 
 ```bash
-curl -u admin:MonSuperMotDePasse https://registry.vlne.fr:5000/v2/_catalog
+curl -u admin:MonSuperMotDePasse https://registry.fgrdn.fr:5000/v2/_catalog
 ```
 
 ### 🏷️ Lister les tags d'une image
 
 ```bash
-curl -u admin:MonSuperMotDePasse https://registry.vlne.fr:5000/v2/nginx/tags/list
+curl -u admin:MonSuperMotDePasse https://registry.fgrdn.fr:5000/v2/nginx/tags/list
 ```
 
 ---
