@@ -27,9 +27,9 @@ project-root/
 ├── .env                         # Variables d'environnement (TLS et auth)
 ├── data/                        # Volume persistant du registre
 └── secrets/                     # Certificats et htpasswd
-├── registryfgrdn.cert       # Certificat TLS
-├── registryfgrdn.key        # Clé privée TLS
-└── htpasswd                 # Fichier d'authentification
+  ├── registryfgrdn.cert       # Certificat TLS
+  ├── registryfgrdn.key        # Clé privée TLS
+  └── htpasswd                 # Fichier d'authentification
 
 ````
 
@@ -70,11 +70,6 @@ Ajoute dans ton `/etc/hosts` la ligne suivante **en remplaçant `192.168.1.107` 
 ```text
 # IP locale du serveur (trouvée avec `ip a`)
 192.168.1.xxx registry.fgrdn.fr
-```
-
-Ou si tu testes localement sur la même machine :
-
-```text
 127.0.0.1 registry.fgrdn.fr
 ```
 
@@ -126,14 +121,14 @@ password: MonSuperMotDePasse
 ### 📤 Pusher une image
 
 ```bash
-docker tag nginx:latest registry.fgrdn.fr:5000/nginx
-docker push registry.fgrdn.fr:5000/nginx
+docker tag frontend registry.fgrdn.fr:5000/frontend:1.0.0
+docker push registry.fgrdn.fr:5000/frontend:1.0.0
 ```
 
 ### 📥 Télécharger une image
 
 ```bash
-docker pull registry.fgrdn.fr:5000/nginx
+docker pull registry.fgrdn.fr:5000/frontend1.0.0
 ```
 
 ### 🚪 Déconnexion
